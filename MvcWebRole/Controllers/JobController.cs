@@ -97,70 +97,6 @@ namespace MvcWebRole.Controllers
             return View(job);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(string partitionKey, string rowKey, Job editedJob)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var job = new Job();
-        //        UpdateModel(job);
-        //        try
-        //        {
-        //            var replaceOperation = TableOperation.Replace(job);
-        //            jobTable.Execute(replaceOperation);
-        //            return RedirectToAction("Index");
-        //        }
-        //        catch (StorageException ex)
-        //        {
-        //            if (ex.RequestInformation.HttpStatusCode == 412)
-        //            {
-        //                // Concurrency error
-        //                var currentJob = FindRow(partitionKey, rowKey);
-        //                if (currentJob.Id != editedJob.Id)
-        //                {
-        //                    ModelState.AddModelError("Id", "Current value: " + currentJob.Id);
-        //                }
-        //                if (currentJob.Template != currentJob.Template)
-        //                {
-        //                    ModelState.AddModelError("Template", "Current value: " + currentJob.Template);
-        //                }
-        //                if (currentJob.Data != currentJob.Data)
-        //                {
-        //                    ModelState.AddModelError("Data", "Current value: " + currentJob.Data);
-        //                }
-        //                if (currentJob.Owner != currentJob.Owner)
-        //                {
-        //                    ModelState.AddModelError("Owner", "Current value: " + currentJob.Owner);
-        //                }
-        //                if (currentJob.Result != currentJob.Result)
-        //                {
-        //                    ModelState.AddModelError("Result", "Current value: " + currentJob.Result);
-        //                }
-        //                if (currentJob.StartTime != currentJob.StartTime)
-        //                {
-        //                    ModelState.AddModelError("StartTime", "Current value: " + currentJob.StartTime);
-        //                }
-        //                if (currentJob.EndTime != currentJob.EndTime)
-        //                {
-        //                    ModelState.AddModelError("EndTime", "Current value: " + currentJob.EndTime);
-        //                }
-        //                ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-        //                    + "was modified by another user after you got the original value. The "
-        //                    + "edit operation was canceled and the current values in the database "
-        //                    + "have been displayed. If you still want to edit this record, click "
-        //                    + "the Save button again. Otherwise click the Back to List hyperlink.");
-        //                ModelState.SetModelValue("ETag", new ValueProviderResult(currentJob.ETag, currentJob.ETag, null));
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //    }
-        //    return View(editedJob);
-        //}
-
         public ActionResult Delete(string partitionKey, string rowKey)
         {
             var job = FindRow(partitionKey, rowKey);
@@ -173,11 +109,11 @@ namespace MvcWebRole.Controllers
         {
             //find job
             Job job = FindRow(partitionKey, rowKey);
-            //find tasks of job
-            //find results of tasks + job
-            //delete results
-            //delete tasks
-            //delete job
+            //TODO find tasks of job
+            //TODO find results of tasks + job
+            //TODO delete results
+            //TODO delete tasks
+            //TODO delete job
             jobTable.Execute(TableOperation.Delete(job));
             return RedirectToAction("Index");
         }
