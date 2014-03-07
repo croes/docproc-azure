@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Docproc</h1>
+        <p>
+            Welcome to the wonderful world of document processing. Begin
+            your journey by adding your first job.
+        </p>
+        <p>
+            @Html.ActionLink("Add a job", "Create", "Job", null, new {@role = "button", @class = "btn btn-primary btn-lg"})
+        </p>
+    </div>
+</div>

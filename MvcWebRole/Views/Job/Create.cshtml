@@ -1,0 +1,74 @@
+﻿@model MvcWebRole.Models.Job
+
+@{
+    ViewBag.Title = "Create job";
+}
+
+@using Microsoft.AspNet.Identity
+@using (Html.BeginForm("Create", "Job", FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+        <h2>Add Job</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Owner, new { @Value = User.Identity.GetUserName() })
+        @Html.HiddenFor(model => model.Result)
+        @Html.HiddenFor(model => model.StartTime)
+        @Html.HiddenFor(model => model.EndTime)
+    
+
+        <label for="templateFile">
+            Template file (HTML, UTF-8,
+            reference data variables with ${variable})
+        </label> <input id="templateFile"
+                        type="file" class="form-control" />
+        <output class="collapse" id="outTemplate" for="template">
+            <label for="Template">Template contents</label>
+            <textarea class="form-control" id="Template" rows="10" cols="100" name="Template"></textarea>
+        </output>
+        <label for="dataFile">
+            Data (CSV format, ';' seperator, UTF-8,
+            header=variable names, rows=variable data)
+        </label> <input id="dataFile"
+                        type="file" class="form-control" />
+        <output id="outData" class="collapse" for="dataFile">
+            <label for="summary">Summary</label>
+            <ul id="summary" class="list-group">
+                <li class="list-group-item">
+                    <span class="toggler glyphicon glyphicon-chevron-down"
+                          data-toggle="collapse" data-target="#variables"></span> <span id="variablesBadge" class="badge">0</span> Template variables
+                </li>
+                <div id="variables" class="collapse">
+                    <ul id="variablesList"></ul>
+                </div>
+                <li class="list-group-item">
+                    <span class="toggler glyphicon glyphicon-chevron-down"
+                          data-toggle="collapse" data-target="#records"></span> <span id="recordsBadge" class="badge">0</span> Records
+                </li>
+                <div id="records" class="collapse">
+                    <ul id="recordsList"></ul>
+                </div>
+            </ul>
+            <label for="Data">CSV data contents</label>
+            <textarea class="form-control" id="Data" rows="10" cols="100"
+                      name="Data"></textarea>
+        </output>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Job History", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("/Scripts/docproc.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("/Scripts/jquery.csv-0.71.js")"> </script>
+}

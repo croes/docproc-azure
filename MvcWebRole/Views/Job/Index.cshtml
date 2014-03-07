@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MvcWebRole.Models.Job>
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Jobs";
+ }
+
+<h2>Jobs for @User.Identity.GetUserName()</h2>
+
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Template)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Owner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Result)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Template).ToString().Substring(0, 10) ...
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data).ToString().Substring(0, 10) ...
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { PartitionKey = item.PartitionKey, RowKey=item.RowKey }) |
+                @Html.ActionLink("Delete", "Delete", new { PartitionKey = item.PartitionKey, RowKey=item.RowKey })
+            </td>
+        </tr>
+    }
+
+</table>
