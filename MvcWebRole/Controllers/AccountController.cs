@@ -331,7 +331,7 @@ namespace MvcWebRole.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async System.Threading.Tasks.Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
