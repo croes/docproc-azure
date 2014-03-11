@@ -22,6 +22,7 @@ namespace MvcWebRole.DataAccessLayer
                 RoleEnvironment.GetConfigurationSettingValue("StorageConnectionString"));
             var tableClient = storageAccount.CreateCloudTableClient();
             taskTable = tableClient.GetTableReference("task");
+            taskTable.CreateIfNotExists();
         }
 
         public Task FindTask(string partitionKey, string rowKey)
