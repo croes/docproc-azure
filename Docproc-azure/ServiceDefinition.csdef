@@ -19,7 +19,7 @@
       <Setting name="StorageConnectionString" />
     </ConfigurationSettings>
   </WebRole>
-  <WorkerRole name="WorkerRole" vmsize="Small">
+  <WorkerRole name="CsvToDataRole" vmsize="Small">
     <Imports>
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />

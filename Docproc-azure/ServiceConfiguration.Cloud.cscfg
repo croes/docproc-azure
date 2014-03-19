@@ -14,7 +14,7 @@
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="BC70CC2FB6EFAEF9D0F57AB0BA815ED9A644A5E0" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
-  <Role name="WorkerRole">
+  <Role name="CsvToDataRole">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=docproc;AccountKey=WGzf7ifLEw6BkSiDvdNq/qnU5C/tztBv9LpNtidNApEZuxh3e8/MkKkJhTR7ETPFLXZvfysxAKh+EPcgQepCTQ==" />
