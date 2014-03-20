@@ -16,6 +16,13 @@ namespace MvcWebRole.Models
             this.ParamDict = new Dictionary<string,string>();
         }
 
+        public Task(Job job)
+        {
+            this.PartitionKey = job.RowKey;
+            this.RowKey = "TASK:" + Guid.NewGuid().ToString();
+            this.ParamDict = new Dictionary<string, string>();
+        }
+
         [Required]
         [Display(Name="ID")]
         public string Id
@@ -54,6 +61,11 @@ namespace MvcWebRole.Models
                 result += pair.Key + ": " + pair.Value;
             }
             return result;
+        }
+
+        public string KeyString
+        {
+            get { return PartitionKey + "," + RowKey; }
         }
     }
 }

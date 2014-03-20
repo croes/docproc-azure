@@ -64,6 +64,16 @@ namespace MvcWebRole.DataAccessLayer
             taskTable.Execute(insertOperation);
         }
 
+        public void PersistTasks(List<Task> tasks)
+        {
+            var tableBatchOperation = new TableBatchOperation();
+            foreach(Task task in tasks){
+                var insertOperation = TableOperation.Insert(task);
+                tableBatchOperation.Add(insertOperation);
+            }
+            taskTable.ExecuteBatch(tableBatchOperation);
+        }
+
         public void DeleteTask(string partitionKey, string rowKey)
         {
             var task = FindTask(partitionKey, rowKey);

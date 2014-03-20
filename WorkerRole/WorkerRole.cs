@@ -8,25 +8,19 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
+using MvcWebRole.DataAccessLayer;
+using MvcWebRole.Models;
 
 namespace WorkerRole
 {
     public class WorkerRole : RoleEntryPoint
     {
-        public override void Run()
-        {
-            // This is a sample worker implementation. Replace with your logic.
-            Trace.TraceInformation("CsvToDataWorkerRole entry point called");
 
-            while (true)
-            {
-
-                var contents = File.ReadAllText(filename).Split('\n');
-                var csv = from line in contents
-                          select line.Split(',').ToArray();
-                Trace.TraceInformation("Working", "Information");
-            }
-        }
+        CloudQueue incomingQueue;
+        CloudQueue outgoingQueue;
+        JobDAO jobDao;
+        TaskDAO taskDao;
 
         public override bool OnStart()
         {
@@ -36,34 +30,66 @@ namespace WorkerRole
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
 
+            // Retrieve storage account from connection string
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+                CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+            // Create the queue client
+            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+
+            // Retrieve a reference to a queue
+            incomingQueue = queueClient.GetQueueReference("csvtodata");
+            incomingQueue.CreateIfNotExists();
+
+            outgoingQueue = queueClient.GetQueueReference("template");
+            outgoingQueue.CreateIfNotExists();
+
+            jobDao = new JobDAO();
+            taskDao = new TaskDAO();
+            
             return base.OnStart();
         }
 
-        /// <summary>
-        /// Starts the specified number of dequeue tasks.
-        /// </summary>
-        /// <param name="threadCount">The number of dequeue tasks.</param>
-        public void StartListener(int threadCount)
+
+        public override void Run()
         {
-            Guard.ArgumentNotZeroOrNegativeValue(threadCount, "threadCount");
+            // This is a sample worker implementation. Replace with your logic.
+            Trace.TraceInformation("CsvToDataWorkerRole entry point called");
 
-            // The collection of dequeue tasks needs to be reset on each call to this method.
-            if (this.dequeueTasks.IsAddingCompleted)
+            while (true)
             {
-                this.dequeueTasks = new BlockingCollection<Task>(this.dequeueTaskList);
+
+                CloudQueueMessage retrievedMessage = incomingQueue.GetMessage();
+                if (retrievedMessage != null)
+                {
+                    Trace.TraceInformation("Received message {0}", retrievedMessage.AsString);
+                    Job job = jobDao.FindJob(retrievedMessage.AsString);
+                    var csvlines = job.Data.Split('\n');
+                    String[] headers = csvlines.First().Split(';');
+                    List<Task> tasks = new List<Task>();
+                    foreach (string line in csvlines.Skip(1))
+                    {
+                        Task task = new Task(job);
+                        String[] cells = line.Split(';');
+                        for(int i=0; i < cells.Length; i++){
+                            task.addParam(headers[i], cells[i]);
+                            Trace.TraceInformation("Parsed param {0}:{1}", headers[i], cells[i]);
+                        }
+                        tasks.Add(task);
+                    }
+                    taskDao.PersistTasks(tasks);
+                    foreach (Task task in tasks)
+                    {
+                        var outgoingMessage = new CloudQueueMessage(task.KeyString);
+                        outgoingQueue.AddMessage(outgoingMessage);
+                        Trace.TraceInformation("Put message on template queue {0}", outgoingMessage.AsString);
+                    }
+                    incomingQueue.DeleteMessage(retrievedMessage);
+                }
+
+                Thread.Sleep(5000);
             }
-
-            for (int i = 0; i < threadCount; i++)
-            {
-                CancellationToken cancellationToken = this.cancellationSignal.Token;
-                CloudQueueListenerDequeueTaskState<T> workerState = new CloudQueueListenerDequeueTaskState<T>(Subscriptions, cancellationToken, this.queueLocation, this.queueStorage);
-
-                // Start a new dequeue task and register it in the collection of tasks internally managed by this component.
-                this.dequeueTasks.Add(Task.Factory.StartNew(DequeueTaskMain, workerState, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default));
-            }
-
-            // Mark this collection as not accepting any more additions.
-            this.dequeueTasks.CompleteAdding();
         }
+
     }
 }

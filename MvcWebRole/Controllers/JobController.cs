@@ -13,6 +13,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq.Expressions;
 using MvcWebRole.DataAccessLayer;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage.Queue;
 
 namespace MvcWebRole.Controllers
 {
@@ -49,7 +51,13 @@ namespace MvcWebRole.Controllers
             if (ModelState.IsValid)
             {
                 Trace.TraceInformation("job is valid.");
-                jobDao.PersistJob(job);                
+                jobDao.PersistJob(job);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+                        CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+                CloudQueue queue = queueClient.GetQueueReference("csvtodata");
+                CloudQueueMessage message = new CloudQueueMessage(job.KeyString);
+                queue.AddMessage(message);
                 return RedirectToAction("Index");
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);

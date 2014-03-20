@@ -100,5 +100,12 @@ namespace MvcWebRole.DataAccessLayer
             return e => e.RowKey.CompareTo(prefix) >= 0 
                 && e.RowKey.CompareTo(nextPrefix) < 0;
         }
+
+        public Job FindJob(string keyString)
+        {
+            string partitionkey = keyString.Split(',')[0];
+            string rowkey = keyString.Split(',')[1];
+            return FindJob(partitionkey, rowkey);
+        }
     }
 }

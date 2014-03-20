@@ -12,7 +12,7 @@ namespace MvcWebRole.Models
 
         public Job()
         {
-            this.PartitionKey = "JOB:NOUSER";
+            this.PartitionKey = "USER:NOUSER";
             this.RowKey = "JOB:" + Guid.NewGuid().ToString();
         }
 
@@ -51,6 +51,11 @@ namespace MvcWebRole.Models
                                  "Data: {2} \n" +
                                  "Owner: {3} \n" +
                                  "Result: {4}", Id, Template, Data, Owner, Result);
+        }
+
+        public string KeyString
+        {
+            get { return PartitionKey + "," + RowKey; }
         }
     }
 }
