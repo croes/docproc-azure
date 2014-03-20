@@ -3,7 +3,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
-using MvcWebRole.Models;
+using DocprocShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq.Expressions;
-using MvcWebRole.DataAccessLayer;
+using DocprocShared.DataAccessLayer;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage.Queue;
 

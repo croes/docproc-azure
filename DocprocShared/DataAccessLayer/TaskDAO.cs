@@ -1,15 +1,14 @@
-﻿using Microsoft.WindowsAzure.ServiceRuntime;
+﻿using DocprocShared.Models;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
-using MvcWebRole.Controllers;
-using MvcWebRole.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace MvcWebRole.DataAccessLayer
+namespace DocprocShared.DataAccessLayer
 {
     public class TaskDAO
     {

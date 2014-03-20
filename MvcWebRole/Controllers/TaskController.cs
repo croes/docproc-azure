@@ -2,8 +2,8 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
-using MvcWebRole.DataAccessLayer;
-using MvcWebRole.Models;
+using DocprocShared.DataAccessLayer;
+using DocprocShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -1,0 +1,7 @@
+invoice;date;name;street;zipcode;city;email;product;total
+2013;25/02/2013;Bart ;Celestijnenlaan 200A;3000;Leuven;bart@xx.eu;Cloud computing resource for 24/01/2013 to 24/02/2013;1234
+2013;25/02/2013;Bart ;Celestijnenlaan 200A;3000;Leuven;bart@xx.eu;Cloud computing resource for 24/01/2013 to 24/02/2013;1235
+2013;25/02/2013;Bart ;Celestijnenlaan 200A;3000;Leuven;bart@xx.eu;Cloud computing resource for 24/01/2013 to 24/02/2013;1236
+2014;5/01/2013;Glenn;Kapucijnenvoer 203;3000;Leuven;glenn.croes@student.kuleuven.be;Laptop;800
+2015;10/12/2014;Jos;Rue de Page 14;4219;Meeffe;jos@bedrijf.be;Plastic rol;1000
+2014;27/02/2014;Glenn;Kapucijnenvoer 203;3000;Leuven;glenncroes@gmail.com;Laptop;600

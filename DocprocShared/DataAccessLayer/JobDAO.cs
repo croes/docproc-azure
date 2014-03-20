@@ -2,8 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
-using MvcWebRole.Controllers;
-using MvcWebRole.Models;
+using DocprocShared.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace MvcWebRole.DataAccessLayer
+namespace DocprocShared.DataAccessLayer
 {
     public class JobDAO
     {

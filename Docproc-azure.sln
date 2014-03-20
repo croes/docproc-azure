@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E432B8
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocprocShared", "DocprocShared\DocprocShared.csproj", "{516EC179-C3C7-4493-940A-85294703A596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{6A7A87CE-E157-4368-8352-87DA0D06A60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A7A87CE-E157-4368-8352-87DA0D06A60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A7A87CE-E157-4368-8352-87DA0D06A60E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{516EC179-C3C7-4493-940A-85294703A596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516EC179-C3C7-4493-940A-85294703A596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516EC179-C3C7-4493-940A-85294703A596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516EC179-C3C7-4493-940A-85294703A596}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

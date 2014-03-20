@@ -9,8 +9,8 @@ using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using MvcWebRole.DataAccessLayer;
-using MvcWebRole.Models;
+using DocprocShared.DataAccessLayer;
+using DocprocShared.Models;
 
 namespace WorkerRole
 {
@@ -21,6 +21,11 @@ namespace WorkerRole
         CloudQueue outgoingQueue;
         JobDAO jobDao;
         TaskDAO taskDao;
+
+        int minInterval = 1;
+        int interval = 1;
+        int exponent = 2;
+        int maxInterval = 30;
 
         public override bool OnStart()
         {
@@ -85,9 +90,14 @@ namespace WorkerRole
                         Trace.TraceInformation("Put message on template queue {0}", outgoingMessage.AsString);
                     }
                     incomingQueue.DeleteMessage(retrievedMessage);
+                    interval = minInterval;
                 }
-
-                Thread.Sleep(5000);
+                else
+                {
+                    Trace.WriteLine(string.Format("Sleep for {0} seconds", interval)); 
+                    Thread.Sleep(TimeSpan.FromSeconds(interval));
+                    interval = Math.Min(maxInterval, interval * exponent);
+                }
             }
         }
 
