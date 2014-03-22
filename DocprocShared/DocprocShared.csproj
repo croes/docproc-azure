@@ -76,6 +76,7 @@
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueMessages\QueueTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

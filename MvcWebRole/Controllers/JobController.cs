@@ -4,6 +4,7 @@ using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.Table.DataServices;
 using DocprocShared.Models;
+using DocprocShared.QueueTask;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,10 +23,16 @@ namespace MvcWebRole.Controllers
     {
 
         private JobDAO jobDao;
+        private CloudQueue workerQueue;
 
         public JobController()
         {
             this.jobDao = new JobDAO();
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+                        CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+            workerQueue = queueClient.GetQueueReference("workerqueue");
+            workerQueue.CreateIfNotExists();
         }
 
         public ActionResult Index()
@@ -52,12 +59,9 @@ namespace MvcWebRole.Controllers
             {
                 Trace.TraceInformation("job is valid.");
                 jobDao.PersistJob(job);
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-                        CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-                CloudQueue queue = queueClient.GetQueueReference("csvtodata");
-                CloudQueueMessage message = new CloudQueueMessage(job.KeyString);
-                queue.AddMessage(message);
+                
+                CloudQueueMessage message = new CloudQueueMessage(new CsvToDataTask(job).ToBinary());
+                workerQueue.AddMessage(message);
                 return RedirectToAction("Index");
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);

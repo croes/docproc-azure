@@ -7,7 +7,7 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Docproc-azure", "Docproc-az
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebRole", "MvcWebRole\MvcWebRole.csproj", "{8C046B2D-A901-4CF0-BC74-E45156890CB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToDataRole", "WorkerRole\CsvToDataRole.csproj", "{6A7A87CE-E157-4368-8352-87DA0D06A60E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole", "WorkerRole\WorkerRole.csproj", "{6A7A87CE-E157-4368-8352-87DA0D06A60E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E432B874-3858-41E7-A100-CAB3685F2DE7}"
 	ProjectSection(SolutionItems) = preProject

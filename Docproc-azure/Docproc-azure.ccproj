@@ -45,24 +45,24 @@
       <RoleName>MvcWebRole</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
-    <ProjectReference Include="..\WorkerRole\CsvToDataRole.csproj">
-      <Name>CsvToDataRole</Name>
+    <ProjectReference Include="..\WorkerRole\WorkerRole.csproj">
+      <Name>WorkerRole</Name>
       <Project>{6a7a87ce-e157-4368-8352-87da0d06a60e}</Project>
       <Private>True</Private>
       <RoleType>Worker</RoleType>
-      <RoleName>CsvToDataRole</RoleName>
+      <RoleName>WorkerRole</RoleName>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MvcWebRoleContent\" />
     <Folder Include="Profiles" />
-    <Folder Include="CsvToDataRoleContent" />
+    <Folder Include="WorkerRoleContent" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MvcWebRoleContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="CsvToDataRoleContent\diagnostics.wadcfg">
+    <Content Include="WorkerRoleContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

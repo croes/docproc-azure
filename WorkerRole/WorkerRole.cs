@@ -11,14 +11,15 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using DocprocShared.DataAccessLayer;
 using DocprocShared.Models;
+using DocprocShared.QueueTask;
+using WorkerRole.Processors;
 
 namespace WorkerRole
 {
     public class WorkerRole : RoleEntryPoint
     {
 
-        CloudQueue incomingQueue;
-        CloudQueue outgoingQueue;
+        CloudQueue workerQueue;
         JobDAO jobDao;
         TaskDAO taskDao;
 
@@ -43,11 +44,8 @@ namespace WorkerRole
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
             // Retrieve a reference to a queue
-            incomingQueue = queueClient.GetQueueReference("csvtodata");
-            incomingQueue.CreateIfNotExists();
-
-            outgoingQueue = queueClient.GetQueueReference("template");
-            outgoingQueue.CreateIfNotExists();
+            workerQueue = queueClient.GetQueueReference("workerqueue");
+            workerQueue.CreateIfNotExists();
 
             jobDao = new JobDAO();
             taskDao = new TaskDAO();
@@ -59,37 +57,25 @@ namespace WorkerRole
         public override void Run()
         {
             // This is a sample worker implementation. Replace with your logic.
-            Trace.TraceInformation("CsvToDataWorkerRole entry point called");
+            Trace.TraceInformation("WorkerRole entry point called");
+
+            var AllProcessors = new List<IProcessor>();
+            AllProcessors.Add(new CsvToDataProcessor());
+            AllProcessors.Add(new TemplateProcessor());
 
             while (true)
             {
-
-                CloudQueueMessage retrievedMessage = incomingQueue.GetMessage();
+                CloudQueueMessage retrievedMessage = workerQueue.GetMessage();
                 if (retrievedMessage != null)
                 {
-                    Trace.TraceInformation("Received message {0}", retrievedMessage.AsString);
-                    Job job = jobDao.FindJob(retrievedMessage.AsString);
-                    var csvlines = job.Data.Split('\n');
-                    String[] headers = csvlines.First().Split(';');
-                    List<Task> tasks = new List<Task>();
-                    foreach (string line in csvlines.Skip(1))
-                    {
-                        Task task = new Task(job);
-                        String[] cells = line.Split(';');
-                        for(int i=0; i < cells.Length; i++){
-                            task.addParam(headers[i], cells[i]);
-                            Trace.TraceInformation("Parsed param {0}:{1}", headers[i], cells[i]);
-                        }
-                        tasks.Add(task);
+                    var queueTask = retrievedMessage.ToQueueTask<object>();
+                    Trace.TraceInformation("processing task type: {0}", queueTask.GetType());
+                    var processor = AllProcessors.First(p => p.GetType().BaseType.GetGenericArguments()[0] == queueTask.GetType());
+                    var nextMessages = processor.Process(queueTask);
+                    foreach(var message in nextMessages){
+                        workerQueue.AddMessage(message);
                     }
-                    taskDao.PersistTasks(tasks);
-                    foreach (Task task in tasks)
-                    {
-                        var outgoingMessage = new CloudQueueMessage(task.KeyString);
-                        outgoingQueue.AddMessage(outgoingMessage);
-                        Trace.TraceInformation("Put message on template queue {0}", outgoingMessage.AsString);
-                    }
-                    incomingQueue.DeleteMessage(retrievedMessage);
+                    workerQueue.DeleteMessage(retrievedMessage);
                     interval = minInterval;
                 }
                 else
