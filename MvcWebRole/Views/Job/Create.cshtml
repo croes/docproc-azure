@@ -21,7 +21,8 @@
 
         <label for="templateFile">
             Template file (HTML, UTF-8,
-            reference data variables with ${variable})
+            reference data variables with ${variable}) <br />
+            <a href="~/Content/example.html" download="example.html">Download example</a>
         </label> <input id="templateFile"
                         type="file" class="form-control" />
         <output class="collapse" id="outTemplate" for="template">
@@ -30,7 +31,11 @@
         </output>
         <label for="dataFile">
             Data (CSV format, ';' seperator, UTF-8,
-            header=variable names, rows=variable data)
+            header=variable names, rows=variable data)<br />
+            Download example:
+            <a href="~/Content/example-5.csv" download="example-5.csv">5 rows</a>
+            <a href="~/Content/example-100.csv" download="example-100.csv">100 rows</a>
+            <a href="~/Content/example-500.csv" download="example-500.csv">500 rows</a>
         </label> <input id="dataFile"
                         type="file" class="form-control" />
         <output id="outData" class="collapse" for="dataFile">
