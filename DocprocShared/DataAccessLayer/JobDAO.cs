@@ -70,7 +70,7 @@ namespace DocprocShared.DataAccessLayer
 
         public void PersistJob(Job job)
         {
-            var insertOperation = TableOperation.Insert(job);
+            var insertOperation = TableOperation.InsertOrMerge(job);
             jobTable.Execute(insertOperation);
         }
 

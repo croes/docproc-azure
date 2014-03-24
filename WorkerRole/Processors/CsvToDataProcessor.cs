@@ -45,6 +45,7 @@ namespace WorkerRole.Processors
                 }
             }
             taskDao.PersistTasks(tasks);
+            jobDao.PersistJob(job);
             var outgoingMessages = new List<CloudQueueMessage>();
             foreach (Task task in tasks)
             {
