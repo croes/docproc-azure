@@ -26,6 +26,7 @@ namespace WorkerRole.Processors
 
             Trace.TraceInformation("Received message {0}", queueTask.JobPartitionKey + "," + queueTask.JobRowKey);
             Job job = jobDao.FindJob(queueTask.JobPartitionKey, queueTask.JobRowKey);
+            job.StartTime = DateTime.Now;
             var csvlines = job.Data.Split('\n');
             String[] headers = csvlines.First().Split(';');
             List<Task> tasks = new List<Task>();
