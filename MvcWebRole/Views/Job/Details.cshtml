@@ -33,7 +33,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartTime)
+            @if (Model.StartTime != null)
+            {
+                @Html.DisplayFor(model => model.StartTime);
+            }
+            else
+            {
+                @:N/A (In queue)
+            }
         </dd>
 
         <dt>
@@ -41,7 +48,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EndTime)
+            @if (Model.EndTime != null)
+            {
+                @Html.DisplayFor(modelItem => Model.EndTime)
+            }
+            else
+            {
+                @:N/A (Not finished yet)
+            }
         </dd>
 
         <dt>
