@@ -57,7 +57,7 @@ namespace DocprocShared.DataAccessLayer
                 jobs = (from job in jobTable.CreateQuery<Job>()
                                   where job.PartitionKey == "USER:" + userName
                                   select job)
-                            .Where(HasRowKeyPrefix("JOB:"))
+                            //.Where(HasRowKeyPrefix("JOB:"))
                             .ToList();
             }
             catch (StorageException se)

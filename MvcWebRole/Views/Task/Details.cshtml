@@ -20,10 +20,23 @@
             @Html.DisplayFor(model => model.Template)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ParamDict)
+        </dt>
+
+        <dd>
+            <ul>
+                @foreach (var pair in Model.ParamDict)
+                {
+                    <li><b>@pair.Key</b>:@pair.Value</li>
+                }
+            </ul>
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Delete", "Delete") |
-    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Back to List", "Index", new { jobPartitionKey = "USER:" + User.Identity.Name, jobRowKey = Model.PartitionKey }) |
     @Html.ActionLink("Job details", "Details", "Job", new { partitionKey = "USER:" + User.Identity.Name, rowKey = Model.PartitionKey })
 </p>
