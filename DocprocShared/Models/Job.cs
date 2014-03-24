@@ -34,11 +34,11 @@ namespace DocprocShared.Models
         public string Owner { get; set; }
 
         [Display(Name = "Start time")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime? StartTime { get; set; }
 
         [Display(Name = "End time")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime? EndTime { get; set; }
 
         [Display(Name = "Result")]
