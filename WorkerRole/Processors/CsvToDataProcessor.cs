@@ -10,7 +10,7 @@ using System.Text;
 
 namespace WorkerRole.Processors
 {
-    class CsvToDataProcessor : Processor<CsvToDataTask>
+    public class CsvToDataProcessor : Processor<CsvToDataTask>
     {
 
         JobDAO jobDao;
@@ -45,7 +45,7 @@ namespace WorkerRole.Processors
             foreach (Task task in tasks)
             {
                 outgoingMessages.Add(new CloudQueueMessage(new TemplateTask(job, task).ToBinary()));
-                Trace.TraceInformation("Put message on template queue for task{0}", task.PartitionKey);
+                Trace.TraceInformation("Put message on template queue for task {0}", task.PartitionKey);
             }
             return outgoingMessages;
         }

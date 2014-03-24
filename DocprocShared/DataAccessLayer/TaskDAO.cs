@@ -31,7 +31,7 @@ namespace DocprocShared.DataAccessLayer
                 throw new EntityNotFoundException(
                     "Cannot load task with null partitionKey or rowKey");
             }
-            var retrieveOperation = TableOperation.Retrieve<Job>(partitionKey, rowKey);
+            var retrieveOperation = TableOperation.Retrieve<Task>(partitionKey, rowKey);
             var retrievedResult = taskTable.Execute(retrieveOperation);
             var task = retrievedResult.Result as Task;
             if (task == null)
@@ -50,16 +50,16 @@ namespace DocprocShared.DataAccessLayer
                 RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(3), 3)
             };
             List<Task> tasks = (from task in taskTable.CreateQuery<Task>()
-                              where task.PartitionKey == "JOB:" + job.RowKey
+                              where task.PartitionKey == job.RowKey
                               select task)
-                            .Where(HasRowKeyPrefix("TASK:"))
+                            //.Where(HasRowKeyPrefix("TASK:"))
                             .ToList();
             return tasks;
         }
 
         public void PersistTask(Task task)
         {
-            var insertOperation = TableOperation.Insert(task);
+            var insertOperation = TableOperation.InsertOrMerge(task);
             taskTable.Execute(insertOperation);
         }
 

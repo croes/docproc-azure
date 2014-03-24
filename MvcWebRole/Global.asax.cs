@@ -32,8 +32,8 @@ namespace MvcWebRole
             taskTable.CreateIfNotExists();
             
             var queueClient = storageAccount.CreateCloudQueueClient();
-            var csvtodataqueue = queueClient.GetQueueReference("csvtodata");
-            csvtodataqueue.CreateIfNotExists();
+            var workerqueue = queueClient.GetQueueReference("workerqueue");
+            workerqueue.CreateIfNotExists();
         }
     }
 }

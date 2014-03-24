@@ -46,6 +46,7 @@ namespace MvcWebRole.Controllers
             return RedirectToAction("Index");
         }
 
+        [ValidateInput(false)]
         public ActionResult Details(string partitionKey, string rowKey)
         {
             var job = taskDoa.FindTask(partitionKey, rowKey);
