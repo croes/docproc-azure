@@ -31,14 +31,17 @@ namespace WorkerRole.Processors
             List<Task> tasks = new List<Task>();
             foreach (string line in csvlines.Skip(1))
             {
-                Task task = new Task(job);
-                String[] cells = line.Split(';');
-                for (int i = 0; i < cells.Length; i++)
+                if (!String.IsNullOrEmpty(line))
                 {
-                    task.addParam(headers[i], cells[i]);
-                    Trace.TraceInformation("Parsed param {0}:{1}", headers[i], cells[i]);
+                    Task task = new Task(job);
+                    String[] cells = line.Split(';');
+                    for (int i = 0; i < cells.Length; i++)
+                    {
+                        task.addParam(headers[i], cells[i]);
+                        Trace.TraceInformation("Parsed param {0}:{1}", headers[i], cells[i]);
+                    }
+                    tasks.Add(task);
                 }
-                tasks.Add(task);
             }
             taskDao.PersistTasks(tasks);
             var outgoingMessages = new List<CloudQueueMessage>();
