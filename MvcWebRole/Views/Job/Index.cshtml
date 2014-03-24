@@ -12,9 +12,6 @@
             @Html.DisplayNameFor(model => model.RowKey)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Owner)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.StartTime)
         </th>
         <th>
@@ -33,13 +30,23 @@
                 @Html.DisplayFor(modelItem => item.RowKey)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Owner)
+                @if (item.StartTime != null)
+                {
+                    @Html.DisplayFor(modelItem => item.StartTime);
+                }
+                else
+                {
+                    @:N/A (In queue)
+                }
+                
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
+                @if(item.EndTime != null){
+                   @Html.DisplayFor(modelItem => item.EndTime)
+                }
+                else{
+                    @:N/A (Not finished yet)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Result)
