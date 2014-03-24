@@ -37,6 +37,6 @@
 </div>
 <p>
     @Html.ActionLink("Delete", "Delete") |
-    @Html.ActionLink("Back to List", "Index", new { jobPartitionKey = "USER:" + User.Identity.Name, jobRowKey = Model.PartitionKey }) |
-    @Html.ActionLink("Job details", "Details", "Job", new { partitionKey = "USER:" + User.Identity.Name, rowKey = Model.PartitionKey })
+    @Html.ActionLink("Back to List", "Index", new { jobPartitionKey = "USER-" + User.Identity.Name, jobRowKey = Model.PartitionKey }) |
+    @Html.ActionLink("Job details", "Details", "Job", new { partitionKey = "USER-" + User.Identity.Name, rowKey = Model.PartitionKey })
 </p>

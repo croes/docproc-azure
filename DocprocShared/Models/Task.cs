@@ -14,15 +14,15 @@ namespace DocprocShared.Models
     {
         public Task()
         {
-            this.PartitionKey = "JOB:NOJOB";
-            this.RowKey = "TASK:" + Guid.NewGuid().ToString();
+            this.PartitionKey = "JOB-NOJOB";
+            this.RowKey = "TASK-" + Guid.NewGuid().ToString();
             this.ParamDict = new Dictionary<string,string>();
         }
 
         public Task(Job job)
         {
             this.PartitionKey = job.RowKey;
-            this.RowKey = "TASK:" + Guid.NewGuid().ToString();
+            this.RowKey = "TASK-" + Guid.NewGuid().ToString();
             this.ParamDict = new Dictionary<string, string>();
         }
 

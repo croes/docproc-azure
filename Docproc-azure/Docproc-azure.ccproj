@@ -65,6 +65,12 @@
     <Content Include="WorkerRoleContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="WorkerRoleContent\wkhtmltopdf.exe">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="WorkerRoleContent\wkhtmltox.dll">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\docproc-azureProduction.azurePubxml" />

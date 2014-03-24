@@ -11,17 +11,20 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using DocprocShared.BlobAccessLayer;
 
 namespace MvcWebRole.Controllers
 {
     public class TaskController : Controller
     {
 
-        private TaskDAO taskDoa;
+        private TaskDAO taskDao;
+        private BlobAccess blobAccess;
 
         public TaskController()
         {
-            taskDoa = new TaskDAO();
+            taskDao = new TaskDAO();
+            blobAccess = new BlobAccess();
         }
 
         public ActionResult Index(string jobPartitionKey, string jobRowKey)
@@ -29,12 +32,12 @@ namespace MvcWebRole.Controllers
             JobDAO jobDAO = new JobDAO();
             Job job = jobDAO.FindJob(jobPartitionKey, jobRowKey);
             ViewBag.Job = job;
-            return View(taskDoa.FindTasksOfJob(job));
+            return View(taskDao.FindTasksOfJob(job));
         }
 
         public ActionResult Delete(string partitionKey, string rowKey)
         {
-            var task = taskDoa.FindTask(partitionKey, rowKey);
+            var task = taskDao.FindTask(partitionKey, rowKey);
             return View(task);
         }
 
@@ -42,16 +45,17 @@ namespace MvcWebRole.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string partitionKey, string rowKey)
         {
-            taskDoa.DeleteTask(partitionKey, rowKey);
+            taskDao.DeleteTask(partitionKey, rowKey);
             return RedirectToAction("Index");
         }
 
         [ValidateInput(false)]
         public ActionResult Details(string partitionKey, string rowKey)
         {
-            var job = taskDoa.FindTask(partitionKey, rowKey);
-            return View(job);
+            var task = taskDao.FindTask(partitionKey, rowKey);
+            return View(task);
         }
+
 
         public static Expression<Func<Task, bool>> HasRowKeyPrefix(String prefix)
         {

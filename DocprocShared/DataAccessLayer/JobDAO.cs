@@ -55,7 +55,7 @@ namespace DocprocShared.DataAccessLayer
             try
             {
                 jobs = (from job in jobTable.CreateQuery<Job>()
-                                  where job.PartitionKey == "USER:" + userName
+                                  where job.PartitionKey == "USER-" + userName
                                   select job)
                             //.Where(HasRowKeyPrefix("JOB:"))
                             .ToList();

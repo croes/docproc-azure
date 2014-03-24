@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<DocprocShared.Models.Task>
 @using DocprocShared.Models;
+@using DocprocShared.BlobAccessLayer;
 @{
     var job = ViewBag.Job as Job;
+    BlobAccess blobAccess = new BlobAccess();
 }
 
 <h1>Tasks for Job @job.Id</h1>
@@ -33,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Template)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Result)
+                <a href="@blobAccess.getSASUri(job, item)" download="@String.Concat(item.RowKey,".pdf")">Download</a>
             </td>
             <td>
                 <ul>

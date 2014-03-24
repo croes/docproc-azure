@@ -53,7 +53,7 @@ namespace MvcWebRole.Controllers
         public ActionResult Create(Job job)
         {
             job.Template = WebUtility.HtmlEncode(job.Template);
-            job.PartitionKey = "USER:" + job.Owner;
+            job.PartitionKey = "USER-" + job.Owner;
             Trace.TraceInformation("created job: {0}", job);
             if (ModelState.IsValid)
             {

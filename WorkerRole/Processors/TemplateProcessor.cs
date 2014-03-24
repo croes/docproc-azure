@@ -34,6 +34,7 @@ namespace WorkerRole.Processors
             task.Template = filledInTemplate;
             taskDao.PersistTask(task);
             var outgoingMessages = new List<CloudQueueMessage>();
+            outgoingMessages.Add(new CloudQueueMessage(new RenderTask(job, task).ToBinary()));
             return outgoingMessages;
         }
 

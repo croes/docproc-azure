@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlobAccessLayer\BlobAccess.cs" />
     <Compile Include="DataAccessLayer\JobDAO.cs" />
     <Compile Include="DataAccessLayer\TaskDAO.cs" />
     <Compile Include="EntityNotFoundException.cs" />

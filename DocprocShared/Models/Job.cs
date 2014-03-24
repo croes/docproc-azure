@@ -12,8 +12,8 @@ namespace DocprocShared.Models
 
         public Job()
         {
-            this.PartitionKey = "USER:NOUSER";
-            this.RowKey = "JOB:" + Guid.NewGuid().ToString();
+            this.PartitionKey = "USER-NOUSER";
+            this.RowKey = "JOB-" + Guid.NewGuid().ToString();
         }
 
 

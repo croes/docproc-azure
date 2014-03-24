@@ -62,6 +62,7 @@ namespace WorkerRole
             var AllProcessors = new List<IProcessor>();
             AllProcessors.Add(new CsvToDataProcessor());
             AllProcessors.Add(new TemplateProcessor());
+            AllProcessors.Add(new RenderProcessor());
 
             while (true)
             {
