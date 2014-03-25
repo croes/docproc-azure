@@ -15,11 +15,13 @@ namespace WorkerRole.Processors
 
         JobDAO jobDao;
         TaskDAO taskDao;
+        JoinDAO joinDao;
 
         public CsvToDataProcessor()
         {
             jobDao = new JobDAO();
             taskDao = new TaskDAO();
+            joinDao = new JoinDAO();
         }
 
         public override List<CloudQueueMessage> Process(CsvToDataTask queueTask){
@@ -46,6 +48,10 @@ namespace WorkerRole.Processors
             }
             taskDao.PersistTasks(tasks);
             jobDao.PersistJob(job);
+
+            Join join = new Join(job, tasks.Count);
+            joinDao.PersistJoin(join);
+
             var outgoingMessages = new List<CloudQueueMessage>();
             foreach (Task task in tasks)
             {

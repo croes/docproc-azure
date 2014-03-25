@@ -64,6 +64,7 @@ namespace WorkerRole
             AllProcessors.Add(new TemplateProcessor());
             AllProcessors.Add(new RenderProcessor());
             AllProcessors.Add(new MailProcessor());
+            AllProcessors.Add(new ZipProcessor());
 
             while (true)
             {

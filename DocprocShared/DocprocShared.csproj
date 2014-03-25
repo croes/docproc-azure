@@ -72,9 +72,11 @@
   <ItemGroup>
     <Compile Include="BlobAccessLayer\BlobAccess.cs" />
     <Compile Include="DataAccessLayer\JobDAO.cs" />
+    <Compile Include="DataAccessLayer\JoinDAO.cs" />
     <Compile Include="DataAccessLayer\TaskDAO.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\Join.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueMessages\QueueTask.cs" />

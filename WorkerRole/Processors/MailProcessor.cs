@@ -22,12 +22,14 @@ namespace WorkerRole.Processors
         JobDAO jobDao;
         TaskDAO taskDao;
         BlobAccess blobAccess;
+        JoinDAO joinDao;
 
         public MailProcessor()
         {
             jobDao = new JobDAO();
             taskDao = new TaskDAO();
             blobAccess = new BlobAccess();
+            joinDao = new JoinDAO(); 
         }
 
         public override List<CloudQueueMessage> Process(MailTask queueTask)
@@ -37,7 +39,14 @@ namespace WorkerRole.Processors
             var email = CreateMail(job, task);
             SendMail(email);
             Trace.TraceInformation("Send email for task {0},{1}", task.PartitionKey, task.RowKey);
+
             List<CloudQueueMessage> outgoingmessages = new List<CloudQueueMessage>();
+            Join join = joinDao.FindJoin(job);
+            joinDao.DecrementAndStoreJoin(join, 0);
+            if (join.Count <= 0)
+            {
+                outgoingmessages.Add(new CloudQueueMessage(new ZipTask(job).ToBinary()));
+            }
             return outgoingmessages;
         }
 

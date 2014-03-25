@@ -39,11 +39,12 @@ namespace DocprocShared.BlobAccessLayer
             return UploadToBlobFromStream(blob, pdfStream);
         }
 
-        public string UploadJobResult(Job job, Stream zipStream)
+        public string UploadJobResult(Job job, byte[] zipArchive)
         {
             CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
             CloudBlockBlob blob = jobDir.GetBlockBlobReference(job.RowKey + ".zip");
-            return UploadToBlobFromStream(blob, zipStream);
+            blob.UploadFromByteArray(zipArchive, 0, zipArchive.Length);
+            return blob.Uri.AbsoluteUri;
         }
 
         public string UploadToBlobFromStream(CloudBlockBlob blobReference, Stream stream)
