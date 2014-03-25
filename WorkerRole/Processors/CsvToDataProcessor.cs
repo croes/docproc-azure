@@ -10,7 +10,7 @@ using System.Text;
 
 namespace WorkerRole.Processors
 {
-    public class CsvToDataProcessor : Processor<CsvToDataTask>
+    class CsvToDataProcessor : Processor<CsvToDataTask>
     {
 
         JobDAO jobDao;

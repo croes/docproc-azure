@@ -36,12 +36,13 @@ namespace WorkerRole.Processors
             if (success)
             {
                 BlobAccess blobAccess = new BlobAccess();
-                string uri = blobAccess.writeTaskResult(job, task, pdfStream);
+                string uri = blobAccess.UploadTaskResult(job, task, pdfStream);
                 task.Result = uri;
                 Trace.TraceInformation("Generated PDF for task {0}", task.RowKey);
             }
             taskDao.PersistTask(task);
             List<CloudQueueMessage> outgoingMessages = new List<CloudQueueMessage>();
+            outgoingMessages.Add(new CloudQueueMessage(new MailTask(job, task).ToBinary()));
             return outgoingMessages;
         }
     }

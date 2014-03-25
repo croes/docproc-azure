@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace WorkerRole.Processors
 {
-    public class MailProcessor : Processor<MailTask>
+    class MailProcessor : Processor<MailTask>
     {
         static int SASLinkExpirationTimeInMins = 7 * 24 * 60;
         
@@ -43,7 +43,7 @@ namespace WorkerRole.Processors
 
         private SendGrid CreateMail(Job job, Task task)
         {
-            string SASLink = blobAccess.getSASUri(job, task, SASLinkExpirationTimeInMins);
+            string SASLink = blobAccess.GetSASUri(job, task, SASLinkExpirationTimeInMins);
             var email = SendGrid.GetInstance();
             email.From = new MailAddress("no-reply@docproc-azure.appspot.com");
             email.AddTo(task.ParamDict["email"]);

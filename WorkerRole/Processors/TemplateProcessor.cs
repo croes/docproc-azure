@@ -11,14 +11,14 @@ using System.Text.RegularExpressions;
 
 namespace WorkerRole.Processors
 {
-    public class TemplateProcessor : Processor<TemplateTask>
+    class TemplateProcessor : Processor<TemplateTask>
     {
         JobDAO jobDao;
         TaskDAO taskDao;
 
         Regex regex;
 
-        public TemplateProcessor() : base()
+        public TemplateProcessor()
         {
             jobDao = new JobDAO();
             taskDao = new TaskDAO();

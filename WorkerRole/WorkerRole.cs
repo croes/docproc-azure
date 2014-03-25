@@ -63,6 +63,7 @@ namespace WorkerRole
             AllProcessors.Add(new CsvToDataProcessor());
             AllProcessors.Add(new TemplateProcessor());
             AllProcessors.Add(new RenderProcessor());
+            AllProcessors.Add(new MailProcessor());
 
             while (true)
             {

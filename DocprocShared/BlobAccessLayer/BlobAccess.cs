@@ -32,15 +32,27 @@ namespace DocprocShared.BlobAccessLayer
             container.CreateIfNotExists();
         }
 
-        public string writeTaskResult(Job job, Task task, Stream pdfStream)
+        public string UploadTaskResult(Job job, Task task, Stream pdfStream)
         {
             CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
             CloudBlockBlob blob = jobDir.GetBlockBlobReference(task.RowKey + ".pdf");
-            blob.UploadFromStream(pdfStream);
-            return blob.Uri.AbsoluteUri;
+            return UploadToBlobFromStream(blob, pdfStream);
         }
 
-        public string getSASUri(Job job, Task task, int durationInMins)
+        public string UploadJobResult(Job job, Stream zipStream)
+        {
+            CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
+            CloudBlockBlob blob = jobDir.GetBlockBlobReference(job.RowKey + ".zip");
+            return UploadToBlobFromStream(blob, zipStream);
+        }
+
+        public string UploadToBlobFromStream(CloudBlockBlob blobReference, Stream stream)
+        {
+            blobReference.UploadFromStream(stream);
+            return blobReference.Uri.AbsoluteUri;
+        }
+
+        public string GetSASUri(Job job, Task task, int durationInMins)
         {
             CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
             CloudBlockBlob blob = jobDir.GetBlockBlobReference(task.RowKey + ".pdf");
@@ -52,6 +64,15 @@ namespace DocprocShared.BlobAccessLayer
                 SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(durationInMins)
             });
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}", blob.Uri, sas);
+        }
+
+        public Stream DownloadTaskResultToStream(Job job, Task task)
+        {
+            CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
+            CloudBlockBlob blob = jobDir.GetBlockBlobReference(task.RowKey + ".pdf");
+            Stream blobStream = new MemoryStream();
+            blob.DownloadToStream(blobStream);
+            return blobStream;
         }
     }
 }

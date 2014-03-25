@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace WorkerRole.Processors
 {
 
-    public interface IProcessor
+    interface IProcessor
     {
         List<CloudQueueMessage> Process(object obj);
     }
 
-    public abstract class Processor<T> : IProcessor
+    abstract class Processor<T> : IProcessor
     {
         public abstract List<CloudQueueMessage> Process(T obj);
         public List<CloudQueueMessage> Process(object obj)
