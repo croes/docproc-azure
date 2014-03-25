@@ -12,13 +12,13 @@
     <AzureHostedServiceLabel>docproc-azure</AzureHostedServiceLabel>
     <AzureHostedServiceName>docproc-azure</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
-    <AzureEnableProfiling>False</AzureEnableProfiling>
+    <AzureEnableProfiling>True</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
     <AzureSolutionConfiguration>Debug</AzureSolutionConfiguration>
     <AzureStorageAccountLabel>docproc</AzureStorageAccountLabel>
     <AzureStorageAccountName>docproc</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
     <EnableRemoteDebugger>True</EnableRemoteDebugger>
-    <RemoteDebuggerConnectorCertificateThumbprint>D7E52D880C6BDD684A5C8200C6483D9B3DE7DF26</RemoteDebuggerConnectorCertificateThumbprint>
+    <RemoteDebuggerConnectorCertificateThumbprint>68B2213F47E69FC50F6D1D17111ADBF26C9CA17F</RemoteDebuggerConnectorCertificateThumbprint>
   </PropertyGroup>
 </Project>

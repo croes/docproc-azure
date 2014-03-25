@@ -40,7 +40,7 @@ namespace DocprocShared.BlobAccessLayer
             return blob.Uri.AbsoluteUri;
         }
 
-        public string getSASUri(Job job, Task task)
+        public string getSASUri(Job job, Task task, int durationInMins)
         {
             CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
             CloudBlockBlob blob = jobDir.GetBlockBlobReference(task.RowKey + ".pdf");
@@ -49,7 +49,7 @@ namespace DocprocShared.BlobAccessLayer
             {
                 Permissions = permissions,
                 SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-5),
-                SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(15)
+                SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(durationInMins)
             });
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}", blob.Uri, sas);
         }
