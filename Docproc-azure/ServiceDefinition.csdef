@@ -27,6 +27,8 @@
     </Imports>
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" />
+      <Setting name="SendGridUser" />
+      <Setting name="SendGridPwd" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>
