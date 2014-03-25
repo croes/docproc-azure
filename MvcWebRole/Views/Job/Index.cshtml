@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<DocprocShared.Models.Job>
 @using Microsoft.AspNet.Identity
+@using DocprocShared.BlobAccessLayer;
 @{
     ViewBag.Title = "Jobs";
+    var blobAccess = new BlobAccess();
  }
 
 <h2>Jobs for @User.Identity.GetUserName()</h2>
@@ -49,7 +51,14 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Result)
+                @if (item.Result != null)
+                {
+                    <a href="@blobAccess.GetSASUri(item, 15)" download="@String.Concat(item.RowKey,".zip")">Download</a>
+                }
+                else
+                {
+                    @:N/A (Not finished yet)
+                }
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { PartitionKey = item.PartitionKey, RowKey=item.RowKey }) |

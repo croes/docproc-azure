@@ -1,4 +1,8 @@
 ﻿@model DocprocShared.Models.Job
+@using DocprocShared.BlobAccessLayer;
+@{
+    var blobAccess = new BlobAccess();
+}
 
 <div>
     <h4>Job @Html.DisplayFor(model => model.Id)</h4>
@@ -63,7 +67,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Result)
+            @if (Model.Result != null)
+            {
+                <a href="@blobAccess.GetSASUri(Model, 15)" download="@String.Concat(Model.RowKey,".zip")">Download</a>
+            }
+            else
+            {
+                @:N/A (Not finished yet)
+            }
         </dd>
 
     </dl>

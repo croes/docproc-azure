@@ -67,11 +67,25 @@ namespace DocprocShared.BlobAccessLayer
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}", blob.Uri, sas);
         }
 
-        public Stream DownloadTaskResultToStream(Job job, Task task)
+        public string GetSASUri(Job job,  int durationInMins)
+        {
+            CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
+            CloudBlockBlob blob = jobDir.GetBlockBlobReference(job.RowKey + ".zip");
+            SharedAccessBlobPermissions permissions = SharedAccessBlobPermissions.Read;
+            string sas = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            {
+                Permissions = permissions,
+                SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-5),
+                SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(durationInMins)
+            });
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1}", blob.Uri, sas);
+        }
+
+        public MemoryStream DownloadTaskResultToStream(Job job, Task task)
         {
             CloudBlobDirectory jobDir = container.GetDirectoryReference(job.RowKey);
             CloudBlockBlob blob = jobDir.GetBlockBlobReference(task.RowKey + ".pdf");
-            Stream blobStream = new MemoryStream();
+            MemoryStream blobStream = new MemoryStream();
             blob.DownloadToStream(blobStream);
             return blobStream;
         }

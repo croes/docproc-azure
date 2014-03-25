@@ -32,7 +32,7 @@ namespace WorkerRole.Processors
             List<Task> tasks = taskDao.FindTasksOfJob(job);
 
             byte[] zipArchive = BuildZipArchive(job, tasks);
-            blobAccess.UploadJobResult(job, zipArchive);
+            job.Result = blobAccess.UploadJobResult(job, zipArchive);
             Trace.TraceInformation("Uploaded zip for job {0},{1}", job.PartitionKey, job.RowKey);
             job.EndTime = DateTime.Now;
             jobDao.PersistJob(job);
@@ -43,19 +43,19 @@ namespace WorkerRole.Processors
         private byte[] BuildZipArchive(Job job, List<Task> tasks)
         {
             MemoryStream zipMemoryStream = new MemoryStream();
-            using (ZipArchive archive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create))
+            using (ZipArchive archive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Update, true))
             {
                 foreach (var task in tasks)
                 {
-                    Stream taskResultStream = blobAccess.DownloadTaskResultToStream(job, task);
+                    MemoryStream taskResultStream = blobAccess.DownloadTaskResultToStream(job, task);
                     ZipArchiveEntry zipEntry = archive.CreateEntry(task.RowKey + ".pdf");
                     using (Stream zipEntryStream = zipEntry.Open())
                     {
-                        taskResultStream.CopyTo(zipEntryStream);
+                        taskResultStream.WriteTo(zipEntryStream);
                     }
                 }
             }
-            return zipMemoryStream.ToArray();
+            return zipMemoryStream.GetBuffer();
         }
     }
 }

@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Template)
             </td>
             <td>
-                <a href="@blobAccess.getSASUri(job, item, 15)" download="@String.Concat(item.RowKey,".pdf")">Download</a>
+                <a href="@blobAccess.GetSASUri(job, item, 15)" download="@String.Concat(item.RowKey,".pdf")">Download</a>
             </td>
             <td>
                 <ul>
