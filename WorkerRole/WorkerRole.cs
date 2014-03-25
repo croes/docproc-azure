@@ -20,8 +20,6 @@ namespace WorkerRole
     {
 
         CloudQueue workerQueue;
-        JobDAO jobDao;
-        TaskDAO taskDao;
 
         int minInterval = 1;
         int interval = 1;
@@ -46,9 +44,6 @@ namespace WorkerRole
             // Retrieve a reference to a queue
             workerQueue = queueClient.GetQueueReference("workerqueue");
             workerQueue.CreateIfNotExists();
-
-            jobDao = new JobDAO();
-            taskDao = new TaskDAO();
             
             return base.OnStart();
         }

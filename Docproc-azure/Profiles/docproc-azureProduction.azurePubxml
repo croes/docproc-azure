@@ -19,6 +19,6 @@
     <AzureStorageAccountName>docproc</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
     <EnableRemoteDebugger>True</EnableRemoteDebugger>
-    <RemoteDebuggerConnectorCertificateThumbprint>68B2213F47E69FC50F6D1D17111ADBF26C9CA17F</RemoteDebuggerConnectorCertificateThumbprint>
+    <RemoteDebuggerConnectorCertificateThumbprint>76E2AAB9ED215D7AD0EF7FEA7F9C327569EFA8C6</RemoteDebuggerConnectorCertificateThumbprint>
   </PropertyGroup>
 </Project>
